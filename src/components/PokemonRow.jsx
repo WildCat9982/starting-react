@@ -1,29 +1,29 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import Button from '@mui/material/Button';
 
+import PokemonType from "../pokemonType";
 
-const PokemonRow = ({pokemon, onSelect}) => (
-    <tr>
+const PokemonRow = ({ pokemon, onClick }) => (
+  <>
+    <tr key={pokemon.id}>
       <td>{pokemon.name.english}</td>
-      <td>{pokemon.type.join(',')}</td>
+      <td>{pokemon.type.join(", ")}</td>
       <td>
-        <Button variant="contained" color="primary" onClick={()=> onSelect(pokemon)}>MORE INFORMATIOn</Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => onClick(pokemon)}
+        >
+          More Information
+        </Button>
       </td>
     </tr>
-  )
-  
-  PokemonRow.propTypes = {
-    pokemon: PropTypes.shape({
-      name: PropTypes.shape({
-        english: PropTypes.string
-      }),
-      type: PropTypes.arrayOf(PropTypes.string)
-    }),
-    onSelect:PropTypes.func
-  }
-  
+  </>
+);
 
-  
- 
-  export default PokemonRow;
+PokemonRow.propTypes = {
+  pokemon: PropTypes.arrayOf(PokemonType),
+};
+
+export default PokemonRow;

@@ -1,25 +1,25 @@
-import PokemonType from '../pokemonType';
-import { useSelector } from 'react-redux';
+import React from "react";
+
+import useStore from "../store";
 
 const PokemonInfo = () => {
-  const selectedItem = useSelector(state => state.selectedItem);
-  return selectedItem ? (
+  const selectedPokemon = useStore((state) => state.selectedPokemon);
+
+  return selectedPokemon ? (
     <div>
-      <h1>{selectedItem.name.english}</h1>
+      <h2>{selectedPokemon.name.english}</h2>
       <table>
-        {
-          Object.keys(selectedItem.base).map(key => (
+        <tbody>
+          {Object.keys(selectedPokemon.base).map((key) => (
             <tr key={key}>
               <td>{key}</td>
-              <td>{selectedItem.base[key]}</td>
-            </tr>  
-          ))
-        }
+              <td>{selectedPokemon.base[key]}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
-  ): null;
-}
-  
-  PokemonInfo.prototype = PokemonType;
-  
-  export default PokemonInfo;
+  ) : null;
+};
+
+export default PokemonInfo;
