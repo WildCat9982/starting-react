@@ -10,6 +10,30 @@ import PokemonContext from './PokemonContext'
 
 import { CssBaseline } from '@mui/material';
 
+
+const pokemonReducer = (state, action) => {
+  switch(action.type) {
+    case 'SET_FILTER':
+      return {
+        ...state, 
+        filter: action.payload
+      };
+    case 'SET_POKEMON':
+      return {
+        ...state, 
+        pokemon: action.payload
+      };
+    case 'SET_SELECTED_POKEMON':
+      return {
+        ...state, 
+        selectedItem: action.payload
+      };
+
+    default:
+      throw new Error('No Action')
+  }
+}
+
 const Title = styled.h1`
   text-align: center;
 `;
@@ -33,22 +57,31 @@ function App(props) {
   const [pokemon, setPokemon] = useState([])
   const [selectedItem, setSelectedItem] = useState(null)
 
+  const [state, dispatch] = React.useReducer(pokemonReducer, {
+    pokemon: [],
+    filter: "",
+    selectedItem: null
+  });
+
   useEffect(() => {
     fetch('./starting-react/pokemon.json')
       .then(resp => resp.json())
-      .then(data => setPokemon(data))
+      .then(data => dispatch({
+        type: 'SET_POKEMON',
+        payload: data
+      }))
     
   }, [])
+
+  if (!pokemon) {
+    return <div>Loading data</div>
+  }
 
   return (
     <PokemonContext.Provider
       value= {{
-        filter,
-        pokemon,
-        selectedItem,
-        setFilter,
-        setPokemon,
-        setSelectedItem
+        state,
+        dispatch,
       }}>
       <PageContainer>
         <CssBaseline />
@@ -58,7 +91,7 @@ function App(props) {
             <PokemonFilter />
             <PokemonTable />
           </div>
-            <PokemonInfo /> }
+            <PokemonInfo />
           </TwoColumnLayout>
       </PageContainer>
     </PokemonContext.Provider>

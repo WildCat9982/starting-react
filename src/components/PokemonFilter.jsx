@@ -3,11 +3,14 @@ import styled from '@emotion/styled'
 import PokemonContext from '../PokemonContext'
 
 const PokemonFilter = () => {
-  const {filter, setFilter} = useContext(PokemonContext);
+  const {
+    state: {filter}, 
+    dispatch,
+  } = useContext(PokemonContext);
   return (
     <Input 
         value={filter}
-        onChange={(e) => setFilter(e.target.value)}
+        onChange={(e) => dispatch({type: 'SET_FILTER', payload:e.target.value})}
     />
   )
 }
