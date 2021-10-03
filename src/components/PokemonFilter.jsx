@@ -1,23 +1,23 @@
-import React from 'react';
-import styled from '@emotion/styled'
-import useStore from '../store';
+import React from "react";
+import styled from "@emotion/styled";
+import { observer } from "mobx-react";
 
-const PokemonFilter = () => {
-  const filter = useStore(state => state.filter);
-  const setFilter = useStore(state => state.setFilter);
-  return (
-    <Input 
-        value={filter}
-        onChange={(e) => setFilter(e.target.value)}
-    />
-  )
-}
+import store from "../store";
 
 const Input = styled.input`
   width: 100%;
-  font-size: x-large;
   padding: 0.2rem;
+  font-size: large;
 `;
 
+const PokemonFilter = () => {
+  return (
+    <Input
+      type="text"
+      value={store.filter}
+      onChange={(evt) => store.setFilter(evt.target.value)}
+    />
+  );
+};
 
-export default PokemonFilter;
+export default observer(PokemonFilter);
