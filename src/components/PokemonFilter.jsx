@@ -1,16 +1,18 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from '@emotion/styled'
-import PokemonContext from '../PokemonContext'
+import { useSelector, useDispatch } from 'react-redux';
 
 const PokemonFilter = () => {
-  const {
-    state: {filter}, 
-    dispatch,
-  } = useContext(PokemonContext);
+  const dispatch = useDispatch();
+  const filter = useSelector(state => state.filter);
   return (
     <Input 
         value={filter}
-        onChange={(e) => dispatch({type: 'SET_FILTER', payload:e.target.value})}
+        onChange={(e) => 
+          dispatch({
+            type: 'SET_FILTER', 
+            payload:e.target.value
+          })}
     />
   )
 }
