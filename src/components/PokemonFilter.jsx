@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from '@emotion/styled'
+import PokemonContext from '../PokemonContext'
 
-const PokemonFilter = ({filter, setFilter}) => (
+const PokemonFilter = () => {
+  const {filter, setFilter} = useContext(PokemonContext);
+  return (
     <Input 
         value={filter}
         onChange={(e) => setFilter(e.target.value)}
     />
-)
+  )
+}
 
 const Input = styled.input`
   width: 100%;

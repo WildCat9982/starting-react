@@ -6,6 +6,7 @@ import styled  from '@emotion/styled';
 import PokemonInfo from './components/PokemonInfo';
 import PokemonFilter from './components/PokemonFilter'
 import PokemonTable from './components/PokemonTable'
+import PokemonContext from './PokemonContext'
 
 import { CssBaseline } from '@mui/material';
 
@@ -27,7 +28,7 @@ const PageContainer = styled.div`
 
 
 
-function App() {
+function App(props) {
   const [filter, setFilter] = useState("")
   const [pokemon, setPokemon] = useState([])
   const [selectedItem, setSelectedItem] = useState(null)
@@ -36,23 +37,31 @@ function App() {
     fetch('./starting-react/pokemon.json')
       .then(resp => resp.json())
       .then(data => setPokemon(data))
+    
   }, [])
 
   return (
-    <PageContainer>
-      <CssBaseline />
-      <Title>Pokemon Search</Title>
-      <TwoColumnLayout>
-        <div>
-          <PokemonFilter 
-            filter={filter} 
-            setFilter={setFilter} 
-          />
-          <PokemonTable pokemon={pokemon} filter={filter} setSelectedItem={setSelectedItem} />
-        </div>
-          { selectedItem && <PokemonInfo {...selectedItem} /> }
-        </TwoColumnLayout>
-    </PageContainer>
+    <PokemonContext.Provider
+      value= {{
+        filter,
+        pokemon,
+        selectedItem,
+        setFilter,
+        setPokemon,
+        setSelectedItem
+      }}>
+      <PageContainer>
+        <CssBaseline />
+        <Title>Pokemon Search</Title>
+        <TwoColumnLayout>
+          <div>
+            <PokemonFilter />
+            <PokemonTable />
+          </div>
+            <PokemonInfo /> }
+          </TwoColumnLayout>
+      </PageContainer>
+    </PokemonContext.Provider>
   );
 }
 
